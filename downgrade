@@ -49,7 +49,7 @@ search_local() {
   local LC_ALL='C'
 
   # "$term-[0-9].*" limits it to exactly the package passed
-  locals=( $(find /var/cache/pacman/pkg -name "$term-[0-9].*.pkg.tar.[gx]z" | sort -r) )
+  locals=( $(find /var/cache/pacman/pkg -name "$term-[0-9].*.pkg.tar.[gx]z" | sort -rV) )
 
   [[ ${#locals[@]} -ne 0 ]] && return 0 || return 1
 } 
@@ -110,7 +110,7 @@ search_and_print_arm() {
   url="http://arm.konnichi.com/search/raw.php?a=$arch&q=^$term\$$repos"
 
   # TODO: download and use signatures
-  arms=( $(wget -q -O - "$url" | grep -v sig$ | sort -r) )
+  arms=( $(wget -q -O - "$url" | grep -v sig$ | sort -rV) )
 
   if [[ ${#arms[@]} -ne 0 ]]; then
     echo -e "\n The following packages are available from the A.R.M.:"
